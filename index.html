@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sistem Persuratan Sederhana</title>
+
+  <!-- Bootstrap 5 -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- CSS Custom -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- SheetJS (Excel Reader) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="bg-light">
+
+  <div class="container mt-4 mb-5">
+
+    <!-- ================= HEADER ================= -->
+    <h3 class="mb-4">📄 Surat Keluar</h3>
+
+    <!-- ================= FORM SURAT ================= -->
+    <div class="card shadow mb-4">
+      <div class="card-body">
+
+        <!-- Upload Excel -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">
+            Upload Kode Master (Excel)
+          </label>
+          <input
+            type="file"
+            id="uploadExcel"
+            class="form-control"
+            accept=".xlsx,.xls"
+          />
+          <div class="form-text">
+            Kolom Excel wajib: <b>SUB</b>, <b>SUB_SUB</b>, <b>URAIAN</b>
+          </div>
+        </div>
+
+        <!-- SUB -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">SUB</label>
+          <select id="sub" class="form-select">
+            <option value="">Pilih SUB</option>
+          </select>
+        </div>
+
+        <!-- SUB SUB -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">SUB-SUB</label>
+          <select id="subSub" class="form-select" disabled>
+            <option value="">Pilih SUB-SUB</option>
+          </select>
+        </div>
+
+        <!-- URAIAN -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Uraian</label>
+          <input
+            type="text"
+            id="uraian"
+            class="form-control bg-light"
+            readonly
+            placeholder="Uraian otomatis dari kode master"
+          />
+        </div>
+
+        <!-- NOMOR SURAT -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Nomor Surat</label>
+          <input
+            type="text"
+            id="nomorSurat"
+            class="form-control bg-light"
+            readonly
+            placeholder="Nomor surat otomatis"
+          />
+        </div>
+
+        <!-- BUTTON -->
+        <div class="d-flex gap-2">
+          <button id="generate" class="btn btn-primary">
+            Generate Nomor
+          </button>
+          <button id="save" class="btn btn-success">
+            Simpan
+          </button>
+          <button id="pdf" class="btn btn-danger">
+            Export PDF
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="mb-3 d-flex gap-2">
+  <button id="btnBackup" class="btn btn-secondary btn-sm">
+    Backup Data (JSON)
+  </button>
+
+  <label class="btn btn-outline-secondary btn-sm mb-0">
+    Restore Data
+    <input type="file" id="restoreFile" hidden accept=".json" />
+  </label>
+</div>
+<button id="btnReset" class="btn btn-outline-danger btn-sm mb-3">
+  Reset Data (Password)
+</button>
+
+
+
+
+    <!-- ================= TABEL ARSIP ================= -->
+     <div class="mb-3 d-flex gap-2">
+  <button id="exportPdfTable" class="btn btn-danger btn-sm">
+    Export Arsip PDF
+  </button>
+  <button id="exportExcelTable" class="btn btn-success btn-sm">
+    Export Arsip Excel
+  </button>
+</div>
+
+    <div class="card shadow">
+      <div class="card-body">
+
+        <h5 class="mb-3">📁 Arsip Surat Keluar</h5>
+
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped align-middle">
+            <thead class="table-dark">
+              <tr>
+                <th style="width: 50px;">No</th>
+                <th>Nomor Surat</th>
+                <th>Uraian</th>
+                <th style="width: 120px;">Tanggal</th>
+                <th style="width: 140px;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tabelSurat">
+              <!-- Data diisi oleh JS -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JS Aplikasi -->
+  <script src="js/app.js"></script>
+</body>
+</html>
